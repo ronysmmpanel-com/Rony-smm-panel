@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Owner Dashboard</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+<div class="owner-layout">
+
+
+  <aside class="owner-sidebar">
+
+    <h2>Owner</h2>
+
+    <button onclick="openSection('website')">
+      Website
+    </button>
+
+    <button onclick="openSection('userpanel')">
+      User Panel
+    </button>
+
+    <button onclick="openSection('services')">
+      Services
+    </button>
+
+    <button onclick="openSection('payment')">
+      Payment
+    </button>
+
+    <button onclick="openSection('users')">
+      Users
+    </button>
+
+    <button id="logoutButton">
+      Logout
+    </button>
+
+  </aside>
+
+
+  <main class="owner-content">
+
+    <h1>Owner Dashboard</h1>
+
+    <p id="ownerEmail"></p>
+
+
+    <!-- WEBSITE -->
+
+    <section id="website" class="owner-section">
+
+      <h2>Website Settings</h2>
+
+      <input
+        id="websiteName"
+        placeholder="Website Name"
+      >
+
+      <input
+        id="primaryColor"
+        type="color"
+      >
+
+      <button onclick="saveWebsiteSettings()">
+        Save Website Settings
+      </button>
+
+    </section>
+
+
+    <!-- USER PANEL -->
+
+    <section
+      id="userpanel"
+      class="owner-section hidden"
+    >
+
+      <h2>User Panel Settings</h2>
+
+      <label>
+        Dashboard Title
+      </label>
+
+      <input
+        id="dashboardTitle"
+        placeholder="Dashboard"
+      >
+
+      <label>
+        Announcement
+      </label>
+
+      <textarea
+        id="announcement"
+        placeholder="Announcement"
+      ></textarea>
+
+      <button onclick="saveUserPanelSettings()">
+        Save User Panel
+      </button>
+
+    </section>
+
+
+    <!-- SERVICES -->
+
+    <section
+      id="services"
+      class="owner-section hidden"
+    >
+
+      <h2>Services</h2>
+
+      <input
+        id="serviceName"
+        placeholder="Service Name"
+      >
+
+      <input
+        id="servicePrice"
+        type="number"
+        placeholder="Price"
+      >
+
+      <button onclick="addService()">
+        Add Service
+      </button>
+
+      <div id="serviceList"></div>
+
+    </section>
+
+
+    <!-- PAYMENT -->
+
+    <section
+      id="payment"
+      class="owner-section hidden"
+    >
+
+      <h2>Payment Settings</h2>
+
+      <input
+        id="upiId"
+        placeholder="UPI ID"
+      >
+
+      <input
+        id="minDeposit"
+        type="number"
+        placeholder="Minimum Deposit"
+      >
+
+      <button onclick="savePaymentSettings()">
+        Save Payment Settings
+      </button>
+
+    </section>
+
+
+    <!-- USERS -->
+
+    <section
+      id="users"
+      class="owner-section hidden"
+    >
+
+      <h2>Users</h2>
+
+      <p>
+        User management will be connected
+        to Firestore.
+      </p>
+
+    </section>
+
+
+  </main>
+
+</div>
+
+
+<script type="module" src="owner.js"></script>
+
+</body>
+
+</html>

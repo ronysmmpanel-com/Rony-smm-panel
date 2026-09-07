@@ -1,0 +1,85 @@
+.owner-layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+.owner-sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: #151827;
+  padding: 20px;
+}
+
+.owner-sidebar h2 {
+  color: white;
+  margin-bottom: 25px;
+}
+
+.owner-sidebar button {
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.owner-sidebar button:hover {
+  background: #292d42;
+}
+
+.owner-content {
+  flex: 1;
+  padding: 30px;
+}
+
+.owner-section {
+  background: white;
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 14px;
+  max-width: 700px;
+}
+
+.owner-section input,
+.owner-section textarea {
+  width: 100%;
+  padding: 13px;
+  margin: 10px 0 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.owner-section textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.owner-section button {
+  padding: 13px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #635bff;
+  color: white;
+  cursor: pointer;
+}
+
+@media(max-width: 700px) {
+
+  .owner-layout {
+    display: block;
+  }
+
+  .owner-sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .owner-content {
+    padding: 15px;
+  }
+
+}

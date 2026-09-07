@@ -1,0 +1,312 @@
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  addDoc
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+import { firebaseConfig }
+from "./firebase-config.js";
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/*
+OWNER EMAIL
+*/
+
+const OWNER_EMAIL =
+  "vk7983165708@gmail.com";
+
+
+/*
+CHECK OWNER
+*/
+
+onAuthStateChanged(auth, async user => {
+
+  if (!user) {
+
+    window.location.href = "index.html";
+
+    return;
+  }
+
+
+  if (user.email !== OWNER_EMAIL) {
+
+    alert("Owner access only.");
+
+    await signOut(auth);
+
+    window.location.href =
+      "index.html";
+
+    return;
+  }
+
+
+  document
+    .getElementById("ownerEmail")
+    .innerText =
+      "Owner: " + user.email;
+
+
+  loadSettings();
+
+});
+
+
+/*
+SECTION SWITCH
+*/
+
+window.openSection =
+function(sectionId) {
+
+  document
+    .querySelectorAll(".owner-section")
+    .forEach(section => {
+
+      section.classList.add("hidden");
+
+    });
+
+
+  document
+    .getElementById(sectionId)
+    .classList.remove("hidden");
+
+};
+
+
+/*
+SAVE WEBSITE
+*/
+
+window.saveWebsiteSettings =
+async function() {
+
+  const name =
+    document
+      .getElementById("websiteName")
+      .value;
+
+  const color =
+    document
+      .getElementById("primaryColor")
+      .value;
+
+
+  await setDoc(
+    doc(db, "settings", "website"),
+    {
+      name: name,
+      primaryColor: color
+    },
+    { merge: true }
+  );
+
+
+  alert("Website settings saved.");
+
+};
+
+
+/*
+SAVE USER PANEL
+*/
+
+window.saveUserPanelSettings =
+async function() {
+
+  const title =
+    document
+      .getElementById("dashboardTitle")
+      .value;
+
+  const announcement =
+    document
+      .getElementById("announcement")
+      .value;
+
+
+  await setDoc(
+    doc(db, "settings", "userPanel"),
+    {
+      dashboardTitle: title,
+      announcement: announcement
+    },
+    { merge: true }
+  );
+
+
+  alert("User Panel settings saved.");
+
+};
+
+
+/*
+ADD SERVICE
+*/
+
+window.addService =
+async function() {
+
+  const name =
+    document
+      .getElementById("serviceName")
+      .value;
+
+  const price =
+    document
+      .getElementById("servicePrice")
+      .value;
+
+
+  if (!name || !price) {
+
+    alert("Enter service name and price.");
+
+    return;
+  }
+
+
+  await addDoc(
+    collection(db, "services"),
+    {
+      name: name,
+      price: Number(price),
+      active: true,
+      createdAt: Date.now()
+    }
+  );
+
+
+  alert("Service added.");
+
+};
+
+
+/*
+PAYMENT
+*/
+
+window.savePaymentSettings =
+async function() {
+
+  const upi =
+    document
+      .getElementById("upiId")
+      .value;
+
+  const minimum =
+    document
+      .getElementById("minDeposit")
+      .value;
+
+
+  await setDoc(
+    doc(db, "settings", "payment"),
+    {
+      upiId: upi,
+      minimumDeposit: Number(minimum)
+    },
+    { merge: true }
+  );
+
+
+  alert("Payment settings saved.");
+
+};
+
+
+/*
+LOAD SETTINGS
+*/
+
+async function loadSettings() {
+
+  const website =
+    await getDoc(
+      doc(db, "settings", "website")
+    );
+
+
+  if (website.exists()) {
+
+    const data = website.data();
+
+    document
+      .getElementById("websiteName")
+      .value =
+        data.name || "";
+
+    document
+      .getElementById("primaryColor")
+      .value =
+        data.primaryColor || "#635bff";
+
+  }
+
+
+  const panel =
+    await getDoc(
+      doc(db, "settings", "userPanel")
+    );
+
+
+  if (panel.exists()) {
+
+    const data = panel.data();
+
+    document
+      .getElementById("dashboardTitle")
+      .value =
+        data.dashboardTitle || "";
+
+    document
+      .getElementById("announcement")
+      .value =
+        data.announcement || "";
+
+  }
+
+}
+
+
+/*
+LOGOUT
+*/
+
+document
+  .getElementById("logoutButton")
+  .addEventListener(
+    "click",
+    async () => {
+
+      await signOut(auth);
+
+      window.location.href =
+        "index.html";
+
+    }
+  );
